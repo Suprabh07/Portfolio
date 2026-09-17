@@ -19,6 +19,7 @@ import {
   Download, 
   CheckCircle
 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 
 export default function App() {
@@ -668,6 +669,9 @@ export default function App() {
           <CheckCircle size={18} /> {toastMessage}
         </div>
       )}
+
+      {/* Vercel Analytics */}
+      <Analytics />
 
     </div>
   );
