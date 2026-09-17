@@ -5,7 +5,6 @@ import {
   FileText, 
   Menu, 
   X, 
-  Satellite, 
   Calendar, 
   Code, 
   Layers, 
@@ -18,9 +17,7 @@ import {
   MapPin, 
   Send, 
   Download, 
-  CheckCircle, 
-  ExternalLink,
-  RefreshCw
+  CheckCircle
 } from 'lucide-react';
 import './App.css';
 
@@ -34,21 +31,8 @@ export default function App() {
   // Contact Form State
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  // Rocket Canvas Ref
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  
-  // Simulation Metrics State
-  const [telemetry, setTelemetry] = useState({
-    altitude: 1420,
-    pitch: 12.0,
-    roll: -3.0,
-    velocity: 184
-  });
-
-  const pulseBoostRef = useRef(false);
-
   // -------------------------------------------------------------
-  // 1. Scroll Active Section Tracker
+  // Scroll Active Section Tracker
   // -------------------------------------------------------------
   useEffect(() => {
     const handleScroll = () => {
@@ -71,149 +55,6 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // -------------------------------------------------------------
-  // 2. Real-Time Rocket Avionics Telemetry Canvas Animation
-  // -------------------------------------------------------------
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let time = 0;
-
-    const render = () => {
-      // Auto-fit parent
-      if (canvas.parentElement) {
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = canvas.parentElement.clientHeight;
-      }
-
-      const width = canvas.width;
-      const height = canvas.height;
-      const centerX = width / 2;
-      const centerY = height / 2;
-
-      time += 0.04;
-
-      const currentPitch = 12 + Math.sin(time * 2) * 2;
-      const currentRoll = -3 + Math.cos(time * 1.5) * 1.5;
-      const boost = pulseBoostRef.current;
-
-      setTelemetry(prev => ({
-        altitude: Math.round(prev.altitude + (boost ? 2.5 : Math.sin(time) * 0.3)),
-        pitch: parseFloat(currentPitch.toFixed(1)),
-        roll: parseFloat(currentRoll.toFixed(1)),
-        velocity: Math.round(184 + Math.sin(time * 3) * 5 + (boost ? 40 : 0))
-      }));
-
-      ctx.clearRect(0, 0, width, height);
-
-      // Background Grid
-      ctx.strokeStyle = '#1E293B';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < width; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < height; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, width);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-
-      // Horizon Line (Roll Rotation)
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate((currentRoll * Math.PI) / 180);
-
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(-160, 0);
-      ctx.lineTo(160, 0);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Pitch Rotation for Rocket Body
-      ctx.rotate((-currentPitch * Math.PI) / 180);
-
-      // Exhaust Plume
-      const plumeLen = 30 + Math.random() * 15 + (boost ? 30 : 0);
-      const plumeGradient = ctx.createLinearGradient(0, 45, 0, 45 + plumeLen);
-      plumeGradient.addColorStop(0, '#F59E0B');
-      plumeGradient.addColorStop(0.5, '#EF4444');
-      plumeGradient.addColorStop(1, 'transparent');
-
-      ctx.fillStyle = plumeGradient;
-      ctx.beginPath();
-      ctx.moveTo(-8, 45);
-      ctx.lineTo(0, 45 + plumeLen);
-      ctx.lineTo(8, 45);
-      ctx.closePath();
-      ctx.fill();
-
-      // Fins
-      ctx.fillStyle = '#047857';
-      ctx.beginPath();
-      ctx.moveTo(-10, 20);
-      ctx.lineTo(-24, 45);
-      ctx.lineTo(-10, 42);
-      ctx.closePath();
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(10, 20);
-      ctx.lineTo(24, 45);
-      ctx.lineTo(10, 42);
-      ctx.closePath();
-      ctx.fill();
-
-      // Rocket Body
-      const bodyGrad = ctx.createLinearGradient(-10, 0, 10, 0);
-      bodyGrad.addColorStop(0, '#E2E8F0');
-      bodyGrad.addColorStop(0.5, '#FFFFFF');
-      bodyGrad.addColorStop(1, '#94A3B8');
-
-      ctx.fillStyle = bodyGrad;
-      ctx.fillRect(-10, -35, 20, 80);
-
-      // Nosecone
-      ctx.fillStyle = '#065F46';
-      ctx.beginPath();
-      ctx.moveTo(0, -65);
-      ctx.quadraticCurveTo(-10, -45, -10, -35);
-      ctx.lineTo(10, -35);
-      ctx.quadraticCurveTo(10, -45, 0, -65);
-      ctx.closePath();
-      ctx.fill();
-
-      // Accent Band
-      ctx.fillStyle = '#B45309';
-      ctx.fillRect(-10, -20, 20, 6);
-
-      ctx.restore();
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  const triggerPulseBoost = () => {
-    pulseBoostRef.current = true;
-    setTimeout(() => {
-      pulseBoostRef.current = false;
-    }, 1500);
-  };
 
   // Contact Form Submission Handler
   const handleContactSubmit = (e: React.FormEvent) => {
