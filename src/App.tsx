@@ -78,7 +78,7 @@ export default function App() {
         'Implemented 3D orientation tracking for rocket state estimation during flight testing.'
       ],
       tags: ['React', 'Web Serial API', 'Leaflet JS', '3D Canvas', 'WebSockets'],
-      github: 'https://github.com/Suprabh07'
+      github: 'https://github.com/Suprabh07/FCS_Software'
     },
     {
       id: 2,
@@ -90,7 +90,7 @@ export default function App() {
         'Modeled database schemas on Supabase and Firebase for real-time inventory management supporting 500+ artisan product listings.'
       ],
       tags: ['React', 'Node.js', 'Express.js', 'Supabase', 'Firebase'],
-      github: 'https://github.com/Suprabh07'
+      github: 'https://github.com/Suprabh07/Kalakriti'
     },
     {
       id: 3,
@@ -102,20 +102,20 @@ export default function App() {
         'Structured a Firestore NoSQL database with domain-locked authorization rules, cutting permission validation overhead by 15%.'
       ],
       tags: ['Flutter', 'Dart', 'Firebase Firestore', 'Auth Rules'],
-      github: 'https://github.com/Suprabh07'
+      github: 'https://github.com/Suprabh07/AMS'
     },
     {
       id: 4,
-      title: 'Embedded Multi-Sensor Avionics Telemetry Flight Computer',
-      category: 'avionics',
-      badge: 'Embedded Systems & Hardware',
+      title: 'Crowny Hotel Management & Booking Platform',
+      category: 'web',
+      badge: 'Full-Stack Web Development',
       accomplishments: [
-        'Programmed custom sensor telemetry firmware on microcontrollers to process accelerometer, gyroscope, and altimeter telemetry packets over LoRa wireless links.',
-        'Implemented real-time fail-safe abort and safety-critical threshold checking logic.'
+        'Developed a dynamic hotel reservation web app in PHP and MySQL with automated room availability tracking and booking confirmations.',
+        'Structured database schemas across rooms, bookings, and subscribers tables to handle end-to-end guest workflows.'
       ],
-      tags: ['ESP32 / Teensy 4.1', 'C++', 'Ebyte LoRa (SX1278)', 'IMU Sensors'],
-      github: 'https://github.com/Suprabh07'
-    }
+      tags: ['PHP', 'MySQL', 'JavaScript', 'HTML5/CSS3'],
+      github: 'https://github.com/Suprabh07/Crowny'
+  },
   ];
 
   const filteredProjects = projectFilter === 'all' 
