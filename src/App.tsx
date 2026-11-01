@@ -269,16 +269,14 @@ export default function App() {
         <section className="section experience" id="experience">
           <div className="container">
             <h2 className="section-title">Professional Experience</h2>
-            <p className="section-subtitle">Real-time telemetry systems and full-stack software development.</p>
-
             <div className="experience-card">
               <div className="exp-header">
                 <div>
-                  <h3 className="exp-role">Avionics & Software Engineer</h3>
-                  <div className="exp-org">BMSCE Rocketry Ground Station Dashboard</div>
+                  <h3 className="exp-role">Chief FCS Engineer</h3>
+                  <div className="exp-org"> Rocketry - BMSCE </div>
                 </div>
                 <div className="exp-date">
-                  <Calendar size={14} /> Feb 2026 – Mar 2026
+                  <Calendar size={14} /> Sept 2026 – Present
                 </div>
               </div>
 
